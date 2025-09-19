@@ -118,7 +118,7 @@
             </div>
 
             <!-- File Upload Zone -->
-            <div class="upload-section">
+            <div class="upload-section" id="upload-section">
                 <div class="upload-card">
                     <div class="upload-zone" id="uploadZone">
                         <div class="upload-icon">
@@ -342,6 +342,28 @@
 
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script src="script.js"></script>
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault(); // Stop the default jumpy scroll
+
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                const navbar = document.querySelector('.navbar');
+
+                if (targetSection && navbar) {
+                    const navbarHeight = navbar.offsetHeight;
+                    // We scroll to the top of the section, minus the navbar's height, plus 40px of extra space
+                    const targetPosition = targetSection.offsetTop - navbarHeight - 0; 
+
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
 
