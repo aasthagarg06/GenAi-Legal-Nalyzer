@@ -1,38 +1,47 @@
-// script.js (FINAL CORRECTED VERSION)
-
 document.addEventListener('DOMContentLoaded', function() {
     // This runs on every page
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
     initializeNavigation();
+    initializeSmoothScroll();
 
     // Run page-specific code
-    if (document.querySelector('.hero-section')) { // This is unique to index.html
+    if (document.querySelector('.hero-section')) {
         initializeFileUpload();
-    }
-    if (document.querySelector('.dashboard')) { // This is unique to dashboard.html
-        populateDashboardData();
-    }
-    if (document.querySelector('.about-page')) { // This is unique to about.html
-        initializeScrollAnimations();
     }
 });
 
-// --- GLOBAL FUNCTIONS (Used on multiple pages) ---
+// --- GLOBAL FUNCTIONS ---
 function initializeNavigation() {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileNav = document.getElementById('mobileNav');
-    const menuIcon = document.getElementById('menuIcon');
-    const closeIcon = document.getElementById('closeIcon');
-
     if (mobileMenuBtn && mobileNav) {
-        mobileMenuBtn.addEventListener('click', function() {
+        mobileMenuBtn.addEventListener('click', () => {
             mobileNav.classList.toggle('hidden');
-            menuIcon.classList.toggle('hidden');
-            closeIcon.classList.toggle('hidden');
+            mobileMenuBtn.querySelector('#menuIcon').classList.toggle('hidden');
+            mobileMenuBtn.querySelector('#closeIcon').classList.toggle('hidden');
         });
     }
+}
+
+function initializeSmoothScroll() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            const navbar = document.querySelector('.navbar');
+            if (targetSection && navbar) {
+                const navbarHeight = navbar.offsetHeight;
+                const targetPosition = targetSection.offsetTop - navbarHeight - 60; // 60px padding
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
 }
 
 // --- INDEX PAGE FUNCTIONS ---
@@ -45,23 +54,31 @@ function initializeFileUpload() {
             }
         });
     }
-    // You can add back the drag-and-drop and modal logic here if you need it.
 }
 
 function triggerAnalysis(file) {
-    sessionStorage.setItem('documentName', file.name);
-
+    if (!file) return;
+    sessionStorage.setItem('documentName', file.name || 'Pasted Text');
     const formData = new FormData();
     formData.append('document', file);
+    showLoadingState();
+    sendToBackend(formData);
+}
 
-    document.body.innerHTML = `<div style="text-align:center; padding-top:100px;"><h1>Analyzing your document...</h1></div>`;
+function showLoadingState() {
+    document.body.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; text-align:center;"><h1>Analyzing your document...</h1><p>This might take a moment.</p></div>`;
+}
 
+function sendToBackend(formData) {
     const backendApiUrl = 'http://localhost:5000/analyzeDocument';
     fetch(backendApiUrl, {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) { throw new Error('Network response was not ok'); }
+        return response.json();
+    })
     .then(data => {
         sessionStorage.setItem('analysisResult', JSON.stringify(data));
         window.location.href = 'dashboard.html';
@@ -73,119 +90,54 @@ function triggerAnalysis(file) {
     });
 }
 
-// --- DASHBOARD PAGE FUNCTIONS ---
-function populateDashboardData() {
-    const resultsJSON = sessionStorage.getItem('analysisResult');
-    const documentName = sessionStorage.getItem('documentName');
-
-    if (!resultsJSON || !documentName) {
-        document.body.innerHTML = "<h1>Error: No analysis data found.</h1><p><a href='index.html'>Please go back and try again.</a></p>";
-        return;
-    }
-
-    const results = JSON.parse(resultsJSON);
-
-    // Populate Sidebar
-    const docNameElement = document.querySelector('.document-name');
-    if (docNameElement) {
-        docNameElement.textContent = documentName;
-    }
-
-    // Populate Summary
-    const summaryElement = document.querySelector('.summary-text');
-    if (summaryElement) {
-        summaryElement.textContent = results.summary;
-    }
-
-    // Populate Risk Flags
-    const riskContainer = document.querySelector('.risk-list');
-    if (riskContainer) {
-        riskContainer.innerHTML = '';
-        results.riskFlags.forEach(flag => {
-            const riskLevelClass = `risk-${flag.level.toLowerCase()}`;
-            const icon = flag.level.toLowerCase() === 'red' ? 'alert-triangle' : 'alert-circle';
-            const flagHTML = `
-                <div class="risk-item ${riskLevelClass}">
-                    <div class="risk-indicator"><i data-lucide="${icon}" class="icon"></i></div>
-                    <div class="risk-content">
-                        <h4 class="risk-title">${flag.title}</h4>
-                        <p class="risk-description">${flag.explanation}</p>
-                    </div>
-                </div>`;
-            riskContainer.innerHTML += flagHTML;
-        });
-    }
-
-    // Populate Key Clauses
-    const clausesContainer = document.querySelector('.clauses-accordion');
-    if (clausesContainer) {
-        clausesContainer.innerHTML = '';
-        results.keyClauses.forEach((clause, index) => {
-            const clauseHTML = `
-                <div class="accordion-item">
-                    <button class="accordion-trigger">
-                        <span class="accordion-title">${clause.title}</span>
-                        <i data-lucide="chevron-down" class="icon accordion-icon"></i>
-                    </button>
-                    <div class="accordion-content">
-                        <div class="clause-comparison">
-                            <div class="clause-original">
-                                <h5>Original Legal Text:</h5><p>"${clause.originalText}"</p>
-                            </div>
-                            <div class="clause-explanation">
-                                <h5>Plain English:</h5><p>${clause.simplifiedText}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
-            clausesContainer.innerHTML += clauseHTML;
-        });
-    }
-    
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
-    initializeDashboardUI();
-}
-
-function initializeDashboardUI() {
-    const accordionTriggers = document.querySelectorAll('.accordion-trigger');
-    accordionTriggers.forEach(trigger => {
-        trigger.addEventListener('click', function() {
-            const content = this.nextElementSibling;
-            const isExpanded = content.classList.contains('expanded');
-            
-            // Close all others
-            document.querySelectorAll('.accordion-content.expanded').forEach(c => c.classList.remove('expanded'));
-
-            // Toggle current
-            if (!isExpanded) {
-                content.classList.add('expanded');
-            }
-        });
+function showPasteTextModal() {
+    const modalHTML = `
+        <div class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Paste Document Text</h3>
+                    <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="pasteTextArea" class="text-area" placeholder="Paste your document text here..." rows="10"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+                    <button id="analyzeTextBtn" class="btn btn-primary">Analyze Text</button>
+                </div>
+            </div>
+        </div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    document.getElementById('analyzeTextBtn').addEventListener('click', () => {
+        const text = document.getElementById('pasteTextArea').value;
+        if (text.trim().length < 100) {
+            alert('Please paste at least 100 characters.');
+            return;
+        }
+        const file = new Blob([text], { type: 'text/plain' });
+        triggerAnalysis(file);
     });
 }
 
-
-// --- ABOUT PAGE FUNCTIONS (This is the animation code) ---
-function initializeScrollAnimations() {
-  const sectionsToAnimate = document.querySelectorAll('.fade-in-section');
-
-  if (sectionsToAnimate.length === 0) return;
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      }
+function showUrlModal() {
+     const modalHTML = `
+        <div class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Analyze from URL</h3>
+                    <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="url" class="form-input" placeholder="Enter document URL..." id="urlInput">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+                    <button id="analyzeUrlBtn" class="btn btn-primary">Analyze URL</button>
+                </div>
+            </div>
+        </div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    document.getElementById('analyzeUrlBtn').addEventListener('click', () => {
+        alert('URL analysis is a premium feature and not implemented in this demo.');
     });
-  }, {
-    threshold: 0.1
-  });
-
-  sectionsToAnimate.forEach(section => {
-    observer.observe(section);
-  });
 }
-
