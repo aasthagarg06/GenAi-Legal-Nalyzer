@@ -4,38 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LegalEase AI - Understand Legal Documents in Minutes</title>
-    <meta name="description" content="Upload your legal document and get instant AI-powered analysis. Translate complex contracts into simple, actionable advice. Bank-level security guaranteed.">
-    <meta name="author" content="LegalEase AI">
-    
-    <meta property="og:title" content="LegalEase AI - Legal Made Simple">
-    <meta property="og:description" content="Understand any legal document in minutes with AI-powered analysis. No law degree required.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@legalease_ai">
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png">
-    
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.462.0/lucide.min.css">
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-content">
-                <!-- Logo -->
                 <div class="nav-logo">
-                    <div class="logo-icon">
-                        <i data-lucide="shield" class="icon"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>LegalEase AI </h1>
-                    </div>
+                    <div class="logo-icon"><i data-lucide="shield" class="icon"></i></div>
+                    <div class="logo-text"><h1>LegalEase AI</h1></div>
                 </div>
-
-                <!-- Desktop Navigation -->
                 <div class="nav-links desktop-nav">
                     <a href="index.html" class="nav-link">Home</a>
                     <a href="#how-it-works" class="nav-link">How It Works</a>
@@ -43,114 +23,60 @@
                     <a href="about.html" class="nav-link">About</a>
                     <a class="btn btn-hero btn-sm" href="#upload-section">Get Started</a>
                 </div>
-
-                <!-- Mobile menu button -->
                 <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
                     <i data-lucide="menu" class="icon" id="menuIcon"></i>
                     <i data-lucide="x" class="icon hidden" id="closeIcon"></i>
                 </button>
             </div>
-
-            <!-- Mobile Navigation -->
             <div class="mobile-nav hidden" id="mobileNav">
                 <div class="mobile-nav-content">
                     <a href="#how-it-works" class="mobile-nav-link">How It Works</a>
                     <a href="#security" class="mobile-nav-link">Security</a>
                     <a href="about.html" class="mobile-nav-link">About</a>
                     <div class="mobile-nav-buttons">
-                        <button class="btn btn-outline btn-sm">Sign In</button>
-                        <button class="btn btn-hero btn-sm">Get Started</button>
+                        <a href="login.html" class="btn btn-outline btn-sm">Sign In</a>
+                        <a href="#upload-section" class="btn btn-hero btn-sm">Get Started</a>
                     </div>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero-section">
-        <div class="hero-bg-decoration"></div>
-        <div class="hero-blur hero-blur-1"></div>
-        <div class="hero-blur hero-blur-2"></div>
-
         <div class="hero-container">
             <div class="hero-content">
                 <div class="hero-badge">
                     <i data-lucide="check-circle" class="icon"></i>
-                    <span>Trusted by thousands</span>
+                    <span>Powered by Google Cloud AI</span>
                 </div>
-                
                 <h1 class="hero-title">
                     Understand Any Legal Document in 
                     <span class="hero-gradient-text">Minutes</span>
                 </h1>
-                
                 <p class="hero-description">
-                    Upload your contract, and let our AI translate the jargon into simple, actionable advice. 
-                    No law degree required.
+                    Upload your contract, and let our AI translate the jargon into simple, actionable advice. No law degree required.
                 </p>
-
-                <div class="hero-buttons">
-                    <button class="btn btn-hero btn-xl hero-btn-group">
-                        Start Analyzing Now
-                        <i data-lucide="arrow-right" class="icon"></i>
-                    </button>
-                    <button class="btn btn-outline btn-xl">
-                        <i data-lucide="file-text" class="icon"></i>
-                        See Example
-                    </button>
-                </div>
-
-                <!-- Trust indicators -->
-                <div class="trust-indicators">
-                    <div class="trust-item">
-                        <i data-lucide="check-circle" class="icon trust-icon"></i>
-                        <span>Bank-level security</span>
-                    </div>
-                    <div class="trust-item">
-                        <i data-lucide="check-circle" class="icon trust-icon"></i>
-                        <span>Privacy guaranteed</span>
-                    </div>
-                    <div class="trust-item">
-                        <i data-lucide="check-circle" class="icon trust-icon"></i>
-                        <span>Instant results</span>
-                    </div>
-                </div>
             </div>
-
-            <!-- File Upload Zone -->
             <div class="upload-section" id="upload-section">
                 <div class="upload-card">
-                    <div class="upload-zone" id="uploadZone">
-                        <div class="upload-icon">
-                            <i data-lucide="upload-cloud" class="icon upload-cloud-icon"></i>
-                        </div>
+                    <label for="fileInput" class="upload-zone">
+                        <div class="upload-icon"><i data-lucide="upload-cloud" class="icon upload-cloud-icon"></i></div>
                         <h3 class="upload-title">Upload Your Legal Document</h3>
-                        <p class="upload-description">
-                            Drag and drop your file here, or click to browse
-                        </p>
-                        <p class="upload-formats">
-                            Supports PDF, DOCX, TXT files up to 10MB
-                        </p>
-                        <input type="file" id="fileInput" class="file-input" accept=".pdf,.docx,.doc,.txt">
-                        <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
-                            Choose File
-                        </button>
-                    </div>
-
-                    <div class="upload-divider">
-                        <span>or</span>
-                    </div>
-
+                        <p class="upload-description">Drag and drop your file here, or click to browse</p>
+                        <p class="upload-formats">Supports PDF, DOCX, TXT files up to 10MB</p>
+                        <input type="file" id="fileInput" class="file-input">
+                        <span class="btn btn-primary">Choose File</span>
+                    </label>
+                    <div class="upload-divider"><span>or</span></div>
                     <div class="upload-alternatives">
-                        <button class="upload-alt-btn" id="pasteTextBtn">
+                        <button class="upload-alt-btn" onclick="showPasteTextModal()">
                             <i data-lucide="clipboard" class="icon"></i>
                             <div>
                                 <div class="alt-btn-title">Paste Text</div>
                                 <div class="alt-btn-desc">Copy and paste your document text</div>
                             </div>
                         </button>
-                        
-                        <button class="upload-alt-btn" id="urlBtn">
+                        <button class="upload-alt-btn" onclick="showUrlModal()">
                             <i data-lucide="link" class="icon"></i>
                             <div>
                                 <div class="alt-btn-title">Analyze from URL</div>
@@ -163,178 +89,64 @@
         </div>
     </section>
 
-    <!-- How It Works Section -->
     <section id="how-it-works" class="how-it-works-section">
         <div class="section-container">
             <div class="section-header">
                 <h2 class="section-title">How It Works</h2>
-                <p class="section-description">
-                    Get from confusion to clarity in three simple steps. No legal expertise required.
-                </p>
+                <p class="section-description">Get from confusion to clarity in three simple steps.</p>
             </div>
-
             <div class="steps-grid">
                 <div class="step-item">
                     <div class="step-content">
-                        <div class="step-icon step-icon-primary">
-                            <i data-lucide="upload" class="icon"></i>
-                        </div>
+                        <div class="step-icon step-icon-primary"><i data-lucide="upload" class="icon"></i></div>
                         <div class="step-number">1</div>
                         <h3 class="step-title">Upload Document</h3>
-                        <p class="step-description">
-                            Simply drag and drop your legal document, paste text, or provide a URL. We support all common formats.
-                        </p>
+                        <p class="step-description">Simply drag and drop, paste text, or provide a URL.</p>
                     </div>
-                    <div class="step-arrow">
-                        <i data-lucide="arrow-right" class="icon"></i>
-                    </div>
+                    <div class="step-arrow"><i data-lucide="arrow-right" class="icon"></i></div>
                 </div>
-
                 <div class="step-item">
                     <div class="step-content">
-                        <div class="step-icon step-icon-accent">
-                            <i data-lucide="brain" class="icon"></i>
-                        </div>
+                        <div class="step-icon step-icon-accent"><i data-lucide="brain" class="icon"></i></div>
                         <div class="step-number">2</div>
                         <h3 class="step-title">AI Analysis</h3>
-                        <p class="step-description">
-                            Our advanced AI analyzes every clause, identifies risks, and translates legal jargon into plain English.
-                        </p>
+                        <p class="step-description">Our AI identifies risks and translates legal jargon into plain English.</p>
                     </div>
-                    <div class="step-arrow">
-                        <i data-lucide="arrow-right" class="icon"></i>
-                    </div>
+                    <div class="step-arrow"><i data-lucide="arrow-right" class="icon"></i></div>
                 </div>
-
                 <div class="step-item">
                     <div class="step-content">
-                        <div class="step-icon step-icon-success">
-                            <i data-lucide="file-check" class="icon"></i>
-                        </div>
+                        <div class="step-icon step-icon-success"><i data-lucide="file-check" class="icon"></i></div>
                         <div class="step-number">3</div>
                         <h3 class="step-title">Get Clear Summary</h3>
-                        <p class="step-description">
-                            Receive an instant breakdown with key points, risk flags, and actionable insights you can understand.
-                        </p>
+                        <p class="step-description">Receive an instant breakdown with key points and actionable insights.</p>
                     </div>
                 </div>
-            </div>
-
-            <div class="cta-badge">
-                <span>Average analysis time: 30 seconds</span>
             </div>
         </div>
     </section>
 
-    <!-- Trust Section -->
     <section id="security" class="trust-section">
         <div class="section-container">
             <div class="section-header">
                 <h2 class="section-title">Your Trust is Our Priority</h2>
-                <p class="section-description">
-                    We understand legal documents contain sensitive information. That's why we've built 
-                    enterprise-grade security into every aspect of our platform.
-                </p>
+                <p class="section-description">We use enterprise-grade security and never store your documents.</p>
             </div>
-
             <div class="trust-features-grid">
                 <div class="trust-card">
-                    <div class="trust-icon">
-                        <i data-lucide="shield" class="icon"></i>
-                    </div>
+                    <div class="trust-icon"><i data-lucide="shield" class="icon"></i></div>
                     <h3 class="trust-title">Bank-Level Security</h3>
-                    <p class="trust-description">
-                        256-bit SSL encryption protects your documents during upload and analysis.
-                    </p>
-                    <div class="trust-highlight">
-                        <i data-lucide="check-circle" class="icon"></i>
-                        SOC 2 Certified
-                    </div>
+                    <p class="trust-description">256-bit SSL encryption protects your documents during upload and analysis.</p>
                 </div>
-
                 <div class="trust-card">
-                    <div class="trust-icon">
-                        <i data-lucide="lock" class="icon"></i>
-                    </div>
+                    <div class="trust-icon"><i data-lucide="lock" class="icon"></i></div>
                     <h3 class="trust-title">Your Data is Private</h3>
-                    <p class="trust-description">
-                        Documents are analyzed in real-time and automatically deleted after processing.
-                    </p>
-                    <div class="trust-highlight">
-                        <i data-lucide="check-circle" class="icon"></i>
-                        Zero Storage
-                    </div>
+                    <p class="trust-description">Documents are analyzed in memory and deleted immediately after processing.</p>
                 </div>
-
                 <div class="trust-card">
-                    <div class="trust-icon">
-                        <i data-lucide="cloud" class="icon"></i>
-                    </div>
-                    <h3 class="trust-title">Powered by Google Cloud AI</h3>
-                    <p class="trust-description">
-                        Enterprise-grade infrastructure ensures reliable, fast, and accurate analysis.
-                    </p>
-                    <div class="trust-highlight">
-                        <i data-lucide="check-circle" class="icon"></i>
-                        99.9% Uptime
-                    </div>
-                </div>
-            </div>
-
-            <!-- Stats -->
-            <div class="stats-card">
-                <div class="stats-header">
-                    <h3 class="stats-title">Trusted by Thousands</h3>
-                    <p class="stats-description">
-                        Join the growing community of people taking control of their legal documents
-                    </p>
-                </div>
-
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <i data-lucide="file-text" class="icon"></i>
-                        </div>
-                        <div class="stat-value">50,000+</div>
-                        <div class="stat-label">Documents Analyzed</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <i data-lucide="users" class="icon"></i>
-                        </div>
-                        <div class="stat-value">12,000+</div>
-                        <div class="stat-label">Happy Users</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <i data-lucide="award" class="icon"></i>
-                        </div>
-                        <div class="stat-value">5</div>
-                        <div class="stat-label">Security Certifications</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <i data-lucide="check-circle" class="icon"></i>
-                        </div>
-                        <div class="stat-value">4.9/5</div>
-                        <div class="stat-label">Average Rating</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Security Badges -->
-            <div class="security-badges">
-                <div class="security-badge">
-                    <div class="badge-label">PROTECTED BY</div>
-                    <div class="badge-value">Google Cloud</div>
-                </div>
-                <div class="security-badge">
-                    <div class="badge-label">CERTIFIED</div>
-                    <div class="badge-value">SOC 2 Type II</div>
-                </div>
-                <div class="security-badge">
-                    <div class="badge-label">COMPLIANT</div>
-                    <div class="badge-value">GDPR & CCPA</div>
+                    <div class="trust-icon"><i data-lucide="cloud" class="icon"></i></div>
+                    <h3 class="trust-title">Powered by Google Cloud</h3>
+                    <p class="trust-description">Enterprise-grade infrastructure ensures reliable, fast, and accurate analysis.</p>
                 </div>
             </div>
         </div>
@@ -342,28 +154,5 @@
 
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script src="script.js"></script>
-    <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault(); // Stop the default jumpy scroll
-
-                const targetId = this.getAttribute('href');
-                const targetSection = document.querySelector(targetId);
-                const navbar = document.querySelector('.navbar');
-
-                if (targetSection && navbar) {
-                    const navbarHeight = navbar.offsetHeight;
-                    // We scroll to the top of the section, minus the navbar's height, plus 40px of extra space
-                    const targetPosition = targetSection.offsetTop - navbarHeight - 0; 
-
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 </html>
-
