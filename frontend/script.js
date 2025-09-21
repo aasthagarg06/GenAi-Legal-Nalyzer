@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     lucide.createIcons();
     initializeNavigation();
     initializeSmoothScroll();
@@ -41,7 +41,6 @@ function initializeSmoothScroll() {
     });
 }
 
-
 // --- INDEX PAGE FUNCTIONS ---
 function initializeFileUpload() {
     const fileInput = document.getElementById('fileInput');
@@ -56,8 +55,15 @@ function initializeFileUpload() {
 
 function triggerAnalysis(file) {
     if (!file) return;
-    file.text().then(text => sessionStorage.setItem('fullDocumentText', text));
-    sessionStorage.setItem('documentName', file.name || 'Pasted Text');
+    if (file.type !== 'text/plain') {
+        file.text().then(text => sessionStorage.setItem('fullDocumentText', text));
+        sessionStorage.setItem('documentName', file.name || 'Pasted Text');
+    } else {
+        // For Blob from pasted text, we already have the text.
+        sessionStorage.setItem('fullDocumentText', file.text());
+        sessionStorage.setItem('documentName', 'Pasted Text');
+    }
+
     const formData = new FormData();
     formData.append('document', file);
     showLoadingState();
@@ -65,6 +71,7 @@ function triggerAnalysis(file) {
 }
 
 function showLoadingState() {
+    // This will replace the entire body content, which automatically removes the "in progress" span
     document.body.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; text-align:center;"><h1>Analyzing your document...</h1><p>This might take a moment.</p></div>`;
 }
 
@@ -74,37 +81,77 @@ function sendToBackend(formData) {
         method: 'POST',
         body: formData
     })
-    .then(response => {
-        if (!response.ok) { throw new Error('Network response was not ok'); }
-        return response.json();
-    })
-    .then(data => {
-        sessionStorage.setItem('analysisResult', JSON.stringify(data));
-        window.location.href = 'dashboard.html';
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert("Sorry, something went wrong. Please try again.");
-        window.location.reload();
-    });
+        .then(response => {
+            if (!response.ok) { throw new Error('Network response was not ok'); }
+            return response.json();
+        })
+        .then(data => {
+            sessionStorage.setItem('analysisResult', JSON.stringify(data));
+            window.location.href = 'dashboard.html';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Sorry, something went wrong. Please try again.");
+            window.location.reload();
+        });
+}
+
+// --- NEW MODAL AND PROGRESS FUNCTIONS ---
+
+function showProgress(elementId) {
+    const titleElement = document.getElementById(elementId);
+    if (!titleElement) return;
+
+    // Check if the progress span already exists to prevent duplicates
+    if (titleElement.querySelector('.progress-text')) {
+        return;
+    }
+
+    const progressSpan = document.createElement('span');
+    progressSpan.textContent = ' (in progress)';
+    progressSpan.classList.add('progress-text');
+    progressSpan.style.color = '#7C3AED';
+    titleElement.appendChild(progressSpan);
+
+    return () => {
+        if (progressSpan && titleElement.contains(progressSpan)) {
+            titleElement.removeChild(progressSpan);
+        }
+    };
 }
 
 function showPasteTextModal() {
     const modalHTML = `<div class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3>Paste Document Text</h3><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">&times;</button></div><div class="modal-body"><textarea id="pasteTextArea" class="text-area" placeholder="Paste your document text here..." rows="10"></textarea></div><div class="modal-footer"><button class="btn btn-outline" onclick="this.closest('.modal-overlay').remove()">Cancel</button><button id="analyzeTextBtn" class="btn btn-primary">Analyze Text</button></div></div></div>`;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    const cleanup = showProgress('pasteTextTitle');
+
     document.getElementById('analyzeTextBtn').addEventListener('click', () => {
         const text = document.getElementById('pasteTextArea').value;
-        if (text.trim().length < 100) { alert('Please paste at least 100 characters.'); return; }
+        if (text.trim().length < 100) {
+            alert('Please paste at least 100 characters.');
+            cleanup(); // Remove progress if validation fails
+            return;
+        }
+
+        // This creates a temporary file-like object from the text
         const file = new Blob([text], { type: 'text/plain' });
+
+        document.querySelector('.modal-overlay').remove();
         triggerAnalysis(file);
     });
 }
 
 function showUrlModal() {
-     const modalHTML = `<div class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3>Analyze from URL</h3><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">&times;</button></div><div class="modal-body"><input type="url" class="form-input" placeholder="Enter document URL..." id="urlInput"></div><div class="modal-footer"><button class="btn btn-outline" onclick="this.closest('.modal-overlay').remove()">Cancel</button><button id="analyzeUrlBtn" class="btn btn-primary">Analyze URL</button></div></div></div>`;
+    const modalHTML = `<div class="modal-overlay"><div class="modal-content"><div class="modal-header"><h3>Analyze from URL</h3><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">&times;</button></div><div class="modal-body"><input type="url" class="form-input" placeholder="Enter document URL..." id="urlInput"></div><div class="modal-footer"><button class="btn btn-outline" onclick="this.closest('.modal-overlay').remove()">Cancel</button><button id="analyzeUrlBtn" class="btn btn-primary">Analyze URL</button></div></div></div>`;
     document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    const cleanup = showProgress('analyzeUrlTitle');
+
     document.getElementById('analyzeUrlBtn').addEventListener('click', () => {
         alert('URL analysis is a premium feature and not implemented in this demo.');
+        document.querySelector('.modal-overlay').remove();
+        cleanup(); // Remove the progress indicator after the alert
     });
 }
 
@@ -113,7 +160,7 @@ function showUrlModal() {
 function populateDashboardData() {
     const resultsJSON = sessionStorage.getItem('analysisResult');
     const documentName = sessionStorage.getItem('documentName');
-    
+
     if (!resultsJSON || !documentName) {
         document.body.innerHTML = "<h1>Error: No analysis data found.</h1><p><a href='index.html'>Please go back and try again.</a></p>";
         return;
@@ -136,7 +183,7 @@ function populateDashboardData() {
             // This is the only new part: we create the tooltip text here
             const tooltipText = riskLevel === 'red' ? 'High Risk' : 'Medium Risk';
             const icon = riskLevel === 'red' ? 'alert-triangle' : 'alert-circle';
-            
+
             riskContainer.innerHTML += `
                 <div class="risk-item risk-${riskLevel}">
                     <div class="risk-indicator" data-tooltip="${tooltipText}">
@@ -168,7 +215,7 @@ function populateDashboardData() {
 function initializeDashboardUI() {
     // --- Accordion Functionality ---
     document.querySelectorAll('.accordion-trigger').forEach(trigger => {
-        trigger.addEventListener('click', function() {
+        trigger.addEventListener('click', function () {
             this.classList.toggle('active');
             const content = this.nextElementSibling;
             if (content.style.maxHeight) {
@@ -181,7 +228,7 @@ function initializeDashboardUI() {
 
     // --- Sidebar Navigation ---
     document.querySelectorAll('.sidebar-nav-item').forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             e.preventDefault();
             document.querySelectorAll('.sidebar-nav-item').forEach(l => l.classList.remove('active'));
             document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
@@ -217,17 +264,17 @@ function initializeDashboardUI() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 question: question,
-                context: documentText 
+                context: documentText
             })
         })
-        .then(response => response.json())
-        .then(data => {
-            // Add the AI's answer to the chat window
-            chatMessages.innerHTML += `<div class="chat-message chat-ai"><div class="message-avatar"><i data-lucide="bot"></i></div><div class="message-content"><p>${data.answer}</p></div></div>`;
-            lucide.createIcons(); // Redraw the new icon
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        })
-        .catch(error => console.error('Chat Error:', error));
+            .then(response => response.json())
+            .then(data => {
+                // Add the AI's answer to the chat window
+                chatMessages.innerHTML += `<div class="chat-message chat-ai"><div class="message-avatar"><i data-lucide="bot"></i></div><div class="message-content"><p>${data.answer}</p></div></div>`;
+                lucide.createIcons(); // Redraw the new icon
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            })
+            .catch(error => console.error('Chat Error:', error));
     };
 
     sendBtn.addEventListener('click', sendMessage);

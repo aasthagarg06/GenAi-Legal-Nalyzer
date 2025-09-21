@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,40 +9,43 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.462.0/lucide.min.css">
 </head>
+
 <body>
     <nav class="navbar">
-    <div class="nav-container">
-        <div class="nav-content">
-            <div class="nav-logo">
-                <div class="logo-icon"><i data-lucide="shield" class="icon"></i></div>
-                <div class="logo-text"><h1>LegalEase AI</h1></div>
+        <div class="nav-container">
+            <div class="nav-content">
+                <div class="nav-logo">
+                    <div class="logo-icon"><i data-lucide="shield" class="icon"></i></div>
+                    <div class="logo-text">
+                        <h1>LegalEase AI</h1>
+                    </div>
+                </div>
+                <div class="nav-links desktop-nav">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="index.html#how-it-works" class="nav-link">How It Works</a>
+                    <a href="index.html#security" class="nav-link">Security</a>
+                    <a href="about.html" class="nav-link">Our Story</a>
+                    <a class="btn btn-hero btn-sm" href="index.html#upload-section">Get Started</a>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                    <i data-lucide="menu" class="icon" id="menuIcon"></i>
+                    <i data-lucide="x" class="icon hidden" id="closeIcon"></i>
+                </button>
             </div>
-            <div class="nav-links desktop-nav">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="index.html#how-it-works" class="nav-link">How It Works</a>
-                <a href="index.html#security" class="nav-link">Security</a>
-                <a href="about.html" class="nav-link">Our Story</a>
-                <a class="btn btn-hero btn-sm" href="index.html#upload-section">Get Started</a>
-            </div>
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
-                <i data-lucide="menu" class="icon" id="menuIcon"></i>
-                <i data-lucide="x" class="icon hidden" id="closeIcon"></i>
-            </button>
-        </div>
-        <div class="mobile-nav hidden" id="mobileNav">
-            <div class="mobile-nav-content">
-                 <a href="index.html" class="mobile-nav-link">Home</a>
-                <a href="index.html#how-it-works" class="mobile-nav-link">How It Works</a>
-                <a href="index.html#security" class="mobile-nav-link">Security</a>
-                <a href="about.html" class="mobile-nav-link">Our Story</a>
-                <div class="mobile-nav-buttons">
-                    <a href="login.html" class="btn btn-outline btn-sm">Sign In</a>
-                    <a href="index.html#upload-section" class="btn btn-hero btn-sm">Get Started</a>
+            <div class="mobile-nav hidden" id="mobileNav">
+                <div class="mobile-nav-content">
+                    <a href="index.html" class="mobile-nav-link">Home</a>
+                    <a href="index.html#how-it-works" class="mobile-nav-link">How It Works</a>
+                    <a href="index.html#security" class="mobile-nav-link">Security</a>
+                    <a href="about.html" class="mobile-nav-link">Our Story</a>
+                    <div class="mobile-nav-buttons">
+                        <a href="login.html" class="btn btn-outline btn-sm">Sign In</a>
+                        <a href="index.html#upload-section" class="btn btn-hero btn-sm">Get Started</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
     <main class="about-page">
         <section class="about-hero full-screen-hero fade-in-section">
@@ -49,7 +53,8 @@
                 <div class="about-hero-content hero-content-animation">
                     <h1 class="about-title new-about-title">Our Hackathon Journey</h1>
                     <p class="about-subtitle new-about-subtitle">
-                        LegalEase AI is our entry for the Google Cloud Hackathon, born from a simple question: can we use technology to make legal language less intimidating for everyone?
+                        LegalEase AI is our entry for the Google Cloud Hackathon, born from a simple question: can we
+                        use technology to make legal language less intimidating for everyone?
                     </p>
                 </div>
             </div>
@@ -61,20 +66,24 @@
         <section id="problem" class="story-section fade-in-section">
             <div class="section-container story-grid">
                 <div class="story-image-container">
-                    <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=800" alt="Students working on laptops" class="story-image">
+                    <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=800"
+                        alt="Students working on laptops" class="story-image">
                 </div>
                 <div class="story-content">
                     <h2 class="section-title">The Problem We Saw</h2>
-                    <p class="mission-text">We've all been there – faced with a dense rental agreement or confusing terms of service, forced to click "I Agree" without truly understanding the commitment. This information gap felt like a problem worth solving.</p>
+                    <p class="mission-text">We've all been there – faced with a dense rental agreement or confusing
+                        terms of service, forced to click "I Agree" without truly understanding the commitment. This
+                        information gap felt like a problem worth solving.</p>
                 </div>
             </div>
         </section>
 
         <section class="story-section approach-section fade-in-section">
             <div class="section-container story-grid reverse">
-                 <div class="story-content">
+                <div class="story-content">
                     <h2 class="section-title">Our Approach</h2>
-                    <p class="mission-text">This project is built on Google Cloud's powerful generative AI. We focused on crafting a tool that prioritizes three key principles:</p>
+                    <p class="mission-text">This project is built on Google Cloud's powerful generative AI. We focused
+                        on crafting a tool that prioritizes three key principles:</p>
                     <ul class="approach-list">
                         <li><i data-lucide="check-circle" class="icon"></i> <strong>Clarity</strong></li>
                         <li><i data-lucide="shield-check" class="icon"></i> <strong>Security</strong></li>
@@ -82,7 +91,8 @@
                     </ul>
                 </div>
                 <div class="story-image-container">
-                     <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726a?q=80&w=800" alt="Abstract technology graphic" class="story-image">
+                    <img src="./WhatsApp Image 2025-09-21 at 21.50.31_ae57e6a2.jpg" alt="Abstract technology graphic"
+                        class="story-image">
                 </div>
             </div>
         </section>
@@ -94,7 +104,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            
+
             // Animation Logic
             const sectionsToAnimate = document.querySelectorAll('.fade-in-section');
             if (sectionsToAnimate.length > 0) {
@@ -105,8 +115,8 @@
                             observer.unobserve(entry.target);
                         }
                     });
-                }, { 
-                    threshold: 0.5 
+                }, {
+                    threshold: 0.5
                 });
                 sectionsToAnimate.forEach(section => {
                     observer.observe(section);
@@ -116,8 +126,8 @@
             // Scroll Fix
             const scrollLink = document.querySelector('.scroll-down-indicator');
             if (scrollLink) {
-                scrollLink.addEventListener('click', function(e) {
-                    e.preventDefault(); 
+                scrollLink.addEventListener('click', function (e) {
+                    e.preventDefault();
                     const targetId = this.getAttribute('href');
                     const targetSection = document.querySelector(targetId);
                     const navbar = document.querySelector('.navbar');
@@ -131,4 +141,5 @@
         });
     </script>
 </body>
+
 </html>

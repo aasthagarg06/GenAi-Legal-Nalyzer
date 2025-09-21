@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,13 +9,16 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.462.0/lucide.min.css">
 </head>
+
 <body>
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-content">
                 <div class="nav-logo">
                     <div class="logo-icon"><i data-lucide="shield" class="icon"></i></div>
-                    <div class="logo-text"><h1>LegalEase AI</h1></div>
+                    <div class="logo-text">
+                        <h1>LegalEase AI</h1>
+                    </div>
                 </div>
                 <div class="nav-links desktop-nav">
                     <a href="index.html" class="nav-link">Home</a>
@@ -34,7 +38,7 @@
                     <a href="#security" class="mobile-nav-link">Security</a>
                     <a href="about.html" class="mobile-nav-link">About</a>
                     <div class="mobile-nav-buttons">
-                        
+
                         <a href="#upload-section" class="btn btn-hero btn-sm">Get Started</a>
                     </div>
                 </div>
@@ -50,11 +54,12 @@
                     <span>Powered by Google Cloud AI</span>
                 </div>
                 <h1 class="hero-title">
-                    Understand Any Legal Document in 
+                    Understand Any Legal Document in
                     <span class="hero-gradient-text">Minutes</span>
                 </h1>
                 <p class="hero-description">
-                    Upload your contract, and let our AI translate the jargon into simple, actionable advice. No law degree required.
+                    Upload your contract, and let our AI translate the jargon into simple, actionable advice. No law
+                    degree required.
                 </p>
             </div>
             <div class="upload-section" id="upload-section">
@@ -69,18 +74,20 @@
                     </label>
                     <div class="upload-divider"><span>or</span></div>
                     <div class="upload-alternatives">
-                        <button class="upload-alt-btn" onclick="showPasteTextModal()">
+                        <button title="In Progress" class="upload-alt-btn" onclick="showPasteTextModal()">
                             <i data-lucide="clipboard" class="icon"></i>
                             <div>
-                                <div class="alt-btn-title">Paste Text</div>
-                                <div class="alt-btn-desc">Copy and paste your document text</div>
+                                <div class="alt-btn-title" title="In Progress">Paste Text</div>
+                                <div class="alt-btn-desc" title="In Progress">Copy your text here.</div>
                             </div>
                         </button>
-                        <button class="upload-alt-btn" onclick="showUrlModal()">
+                        <button title="In Progress" class="upload-alt-btn" onclick="showUrlModal()">
                             <i data-lucide="link" class="icon"></i>
                             <div>
-                                <div class="alt-btn-title">Analyze from URL</div>
-                                <div class="alt-btn-desc">Enter a link to your document</div>
+                                <div class="alt-btn-title" title="In Progress">Analyze from URL</div>
+                                <div class="alt-btn-desc" title="In Progress">Enter a link to your document</div>
+
+
                             </div>
                         </button>
                     </div>
@@ -89,8 +96,8 @@
         </div>
     </section>
 
-    <section id="how-it-works" class="how-it-works-section">
-        <div class="section-container">
+    <section class="how-it-works-section">
+        <div id="how-it-works" class="section-container">
             <div class="section-header">
                 <h2 class="section-title">How It Works</h2>
                 <p class="section-description">Get from confusion to clarity in three simple steps.</p>
@@ -110,7 +117,8 @@
                         <div class="step-icon step-icon-accent"><i data-lucide="brain" class="icon"></i></div>
                         <div class="step-number">2</div>
                         <h3 class="step-title">AI Analysis</h3>
-                        <p class="step-description">Our AI identifies risks and translates legal jargon into plain English.</p>
+                        <p class="step-description">Our AI identifies risks and translates legal jargon into plain
+                            English.</p>
                     </div>
                     <div class="step-arrow"><i data-lucide="arrow-right" class="icon"></i></div>
                 </div>
@@ -119,15 +127,16 @@
                         <div class="step-icon step-icon-success"><i data-lucide="file-check" class="icon"></i></div>
                         <div class="step-number">3</div>
                         <h3 class="step-title">Get Clear Summary</h3>
-                        <p class="step-description">Receive an instant breakdown with key points and actionable insights.</p>
+                        <p class="step-description">Receive an instant breakdown with key points and actionable
+                            insights.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="security" class="trust-section">
-        <div class="section-container">
+    <section class="trust-section">
+        <div id="security" class="section-container">
             <div class="section-header">
                 <h2 class="section-title">Your Trust is Our Priority</h2>
                 <p class="section-description">We use enterprise-grade security and never store your documents.</p>
@@ -136,17 +145,20 @@
                 <div class="trust-card">
                     <div class="trust-icon"><i data-lucide="shield" class="icon"></i></div>
                     <h3 class="trust-title">Bank-Level Security</h3>
-                    <p class="trust-description">256-bit SSL encryption protects your documents during upload and analysis.</p>
+                    <p class="trust-description">256-bit SSL encryption protects your documents during upload and
+                        analysis.</p>
                 </div>
                 <div class="trust-card">
                     <div class="trust-icon"><i data-lucide="lock" class="icon"></i></div>
                     <h3 class="trust-title">Your Data is Private</h3>
-                    <p class="trust-description">Documents are analyzed in memory and deleted immediately after processing.</p>
+                    <p class="trust-description">Documents are analyzed in memory and deleted immediately after
+                        processing.</p>
                 </div>
                 <div class="trust-card">
                     <div class="trust-icon"><i data-lucide="cloud" class="icon"></i></div>
                     <h3 class="trust-title">Powered by Google Cloud</h3>
-                    <p class="trust-description">Enterprise-grade infrastructure ensures reliable, fast, and accurate analysis.</p>
+                    <p class="trust-description">Enterprise-grade infrastructure ensures reliable, fast, and accurate
+                        analysis.</p>
                 </div>
             </div>
         </div>
@@ -155,4 +167,5 @@
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS # Make sure Flask-Cors is installed with 'pip install Flask-Cors'
+from flask_cors import CORS
 import google.generativeai as genai
 import os
 import json
@@ -24,6 +24,8 @@ model = genai.GenerativeModel('gemini-1.5-flash')
 
 # --- Helper Functions ---
 def extract_and_parse_json(text):
+    """Extracts a JSON object from a string and returns a Python dictionary."""
+    # This regex is an improvement as it finds the most encompassing JSON object
     match = re.search(r'\{.*\}', text, re.DOTALL)
     if match:
         json_string = match.group(0)
@@ -35,9 +37,12 @@ def extract_and_parse_json(text):
     return None
 
 def extract_text_from_file(file):
+    """Extracts text from a file object based on its type."""
     filename = file.filename
     if filename.endswith('.pdf'):
         try:
+            # Always seek to the beginning of the file before reading
+            file.seek(0)
             doc = fitz.open(stream=file.read(), filetype="pdf")
             text = "".join(page.get_text() for page in doc)
             doc.close()
@@ -46,22 +51,36 @@ def extract_text_from_file(file):
             print(f"Error reading PDF: {e}")
             return None
     elif filename.endswith('.txt'):
+        # Always seek to the beginning of the file before reading
+        file.seek(0)
         return file.read().decode('utf-8', errors='ignore')
     return None
 
 # --- API Endpoint for Document Analysis ---
 @app.route("/analyzeDocument", methods=['POST'])
 def analyze_document():
-    if 'document' not in request.files:
-        return jsonify({"error": "No document part in the request"}), 400
-    file = request.files['document']
-    if file.filename == '':
-        return jsonify({"error": "No selected file"}), 400
+    document_content = None
 
-    document_content = extract_text_from_file(file)
+    # Case 1: The request body is a JSON object (from "Paste Text")
+    if request.is_json:
+        data = request.get_json()
+        document_content = data.get('text')
+    # Case 2: The request is a file upload (from "Choose File")
+    elif 'document' in request.files:
+        file = request.files['document']
+        if file.filename == '':
+            return jsonify({"error": "No selected file"}), 400
+        
+        document_content = extract_text_from_file(file)
+    # Case 3: A fallback for plain text in the request body
+    elif request.data:
+        document_content = request.data.decode('utf-8')
+
+    # If we still don't have document content, the request is invalid
     if not document_content:
-        return jsonify({"error": "Could not extract text from the file."}), 400
+        return jsonify({"error": "Invalid request. Expected a file upload, JSON payload, or raw text."}), 400
 
+    # --- Existing logic remains the same after getting document_content ---
     system_prompt = """
     You are a legal document analysis bot. Analyze the provided document and return a single, valid JSON object.
     
@@ -87,7 +106,7 @@ def analyze_document():
             return jsonify({"error": "Failed to parse API response."}), 500
     except Exception as e:
         print(f"Error during Gemini API call: {e}")
-        return jsonify({"error": "Failed to analyze document."}), 500
+        return jsonify({"error": "Failed to analyze document. It's possible you've exceeded your Gemini API quota or a rate-limit has been hit. Please check your API key and try again later."}), 500
 
 # --- API Endpoint for Q&A Chat ---
 @app.route("/askQuestion", methods=['POST'])

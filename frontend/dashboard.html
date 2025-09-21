@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +8,16 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-content">
                 <div class="nav-logo">
                     <div class="logo-icon"><i data-lucide="shield"></i></div>
-                    <div class="logo-text"><h1>LegalEase AI</h1></div>
+                    <div class="logo-text">
+                        <h1>LegalEase AI</h1>
+                    </div>
                 </div>
             </div>
         </div>
@@ -33,7 +37,8 @@
                     <a href="#summary" class="sidebar-nav-item active"><i data-lucide="file-text"></i>Summary</a>
                     <a href="#risks" class="sidebar-nav-item"><i data-lucide="alert-triangle"></i>Risk Flags</a>
                     <a href="#clauses" class="sidebar-nav-item"><i data-lucide="list"></i>Key Clauses</a>
-                    <a href="#chat" class="sidebar-nav-item"><i data-lucide="message-circle"></i>Q&A Chat</a>
+                    <a href="#chat-not-allowed" class="sidebar-nav-item"><i data-lucide="message-circle"></i>Q&A
+                        Chat</a>
                 </nav>
             </div>
         </aside>
@@ -44,7 +49,9 @@
                     <h2 class="section-title">Document Summary</h2>
                 </div>
                 <div class="card">
-                    <div class="card-header"><h3 class="card-title">Overall Summary</h3></div>
+                    <div class="card-header">
+                        <h3 class="card-title">Overall Summary</h3>
+                    </div>
                     <div class="card-content">
                         <p id="summary-text">Loading summary...</p>
                     </div>
@@ -65,10 +72,10 @@
                     <h2 class="section-title">Key Clauses Explained</h2>
                 </div>
                 <div id="key-clauses-container" class="clauses-accordion">
-                     <p>Loading key clauses...</p>
+                    <p>Loading key clauses...</p>
                 </div>
             </section>
-            
+
             <section id="chat" class="content-section">
                 <div class="section-header">
                     <h2 class="section-title">Q&A Chat</h2>
@@ -78,7 +85,8 @@
                         <div class="chat-message chat-ai">
                             <div class="message-avatar"><i data-lucide="bot"></i></div>
                             <div class="message-content">
-                                <p>I have finished analyzing your document. Ask me any specific questions you have about it.</p>
+                                <p>I have finished analyzing your document. Ask me any specific questions you have about
+                                    it.</p>
                             </div>
                         </div>
                     </div>
@@ -92,6 +100,22 @@
                     </div>
                 </div>
             </section>
+            <section id="chat-not-allowed" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Q&A Chat</h2>
+                </div>
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="chat-message chat-ai">
+                            <div class="message-avatar"><i data-lucide="bot" style="color: white;"></i></div>
+                            <div class="message-content">
+                                <h3>In Progress </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
 
         </main>
     </div>
@@ -99,4 +123,5 @@
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script src="script.js"></script>
 </body>
-</html> 
+
+</html>
