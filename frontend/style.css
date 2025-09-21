@@ -2319,3 +2319,136 @@ body {
 #security .trust-features-grid {
     margin-top: 4rem;
 }
+/* Keeps the background blue and makes the icon inside white */
+.logo-icon,
+.document-icon {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground)); /* This makes the icon inside white */
+}
+
+/* =================================== */
+/* === Final Fix for Risk Flag Colors === */
+/* =================================== */
+
+.risk-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.risk-item {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    border: 1px solid;
+}
+
+/* Red Flag for High Risk */
+.risk-red {
+    background-color: hsl(var(--destructive) / 0.05);
+    border-color: hsl(var(--destructive) / 0.2);
+}
+.risk-red .risk-indicator {
+    background-color: hsl(var(--destructive) / 0.1);
+    color: hsl(var(--destructive));
+}
+
+/* Yellow Flag for Medium Risk */
+.risk-yellow {
+    background-color: hsl(var(--warning) / 0.05);
+    border-color: hsl(var(--warning) / 0.2);
+}
+.risk-yellow .risk-indicator {
+    background-color: hsl(var(--warning) / 0.1);
+    color: hsl(var(--warning));
+}
+
+/* Styles for the icon box */
+.risk-indicator {
+    flex-shrink: 0;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.risk-content {
+    flex: 1;
+}
+
+.risk-title {
+    font-weight: 600;
+    color: hsl(var(--foreground));
+    margin-bottom: var(--spacing-sm);
+}
+
+.risk-description {
+    color: hsl(var(--muted-foreground));
+    line-height: 1.5;
+}
+
+/* ================================================= */
+/* === Final, Improved Styles for Hover Tooltip === */
+/* ================================================= */
+
+.risk-indicator {
+    position: relative; /* This is crucial for positioning the tooltip */
+    cursor: pointer;
+}
+
+/* The tooltip itself - hidden by default */
+.risk-indicator::before {
+    content: attr(data-tooltip); /* Reads the text from our HTML attribute */
+    position: absolute;
+    top: 100%; /* FIX: Positions the tooltip BELOW the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 12px; /* FIX: Adds space between the icon and the tooltip */
+    
+    /* FIX: Changed to a white box with dark text */
+    background-color: hsl(var(--card));
+    color: hsl(var(--foreground));
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-medium);
+
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    
+    opacity: 0;
+    visibility: hidden;
+    /* FIX: Increased transition time for a slower effect */
+    transition: opacity 0.4s ease-out, visibility 0.4s ease-out;
+    z-index: 10;
+}
+
+/* The little triangle arrow ABOVE the tooltip */
+.risk-indicator::after {
+    content: '';
+    position: absolute;
+    top: 100%; /* FIX: Positions the arrow BELOW the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 6px; /* Sits just above the main tooltip box */
+    
+    border-width: 6px;
+    border-style: solid;
+    /* FIX: Makes a white, downward-pointing arrow */
+    border-color: transparent transparent hsl(var(--card)) transparent;
+
+    opacity: 0;
+    visibility: hidden;
+    /* FIX: Increased transition time */
+    transition: opacity 0.4s ease-out, visibility 0.4s ease-out;
+}
+
+/* This makes the tooltip appear on hover */
+.risk-indicator:hover::before,
+.risk-indicator:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
