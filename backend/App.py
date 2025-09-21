@@ -1,5 +1,3 @@
-# app.py (FINAL, CORRECTED VERSION)
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS # Make sure Flask-Cors is installed with 'pip install Flask-Cors'
 import google.generativeai as genai
@@ -82,6 +80,8 @@ def analyze_document():
         response = model.generate_content([system_prompt, f"Analyze this document:\n\n{document_content}"])
         analysis_dict = extract_and_parse_json(response.text)
         if analysis_dict:
+            # Add the full document content to the response
+            analysis_dict['full_text'] = document_content
             return jsonify(analysis_dict)
         else:
             return jsonify({"error": "Failed to parse API response."}), 500
@@ -101,7 +101,7 @@ def ask_question():
 
     prompt = f"""
     Based ONLY on the document text provided below, answer the user's question in a simple and direct way. 
-    If the answer is not in the document, say "I'm sorry, I cannot find the answer to that in this document."
+    If the answer is not in the document, please provide a helpful and encouraging response, such as, "While I can't find that specific information in the document, I'm happy to help with any other questions you have about it!"
     ---
     DOCUMENT TEXT: {document_context}
     ---
